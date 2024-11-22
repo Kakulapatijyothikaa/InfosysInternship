@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Iris Tumor Eye Detector{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'detection/css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    /* Universal Styling */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    body {
+        background-image: url('https://www.shutterstock.com/image-vector/ai-artificial-intelligence-digital-eye-260nw-2298013773.jpg');
+        background-size: cover;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+    
+    /* Header Styling */
+    header {
+        width: 100%;
+        background-color: rgba(32, 61, 111, 0.9);
+        color: rgb(21, 122, 31);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+    header h1 {
+        font-size: 1.8em; 
+        margin: 0;
+        font-weight: normal; 
+        color: #ffdd57; 
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+        font-family: 'Pacifico', cursive; 
+    }
+    
+    /* Navigation Styling */
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        padding: 0;
+        margin: 0;
+    }
+    .nav-links li a {
+        text-decoration: none;
+        color: #ece3e3;
+        font-size: 16px;
+        gap: 15px;
+    }
+    .nav-links a {
+        color: white;
+        margin: 0 10px;
+        text-decoration: none;
+        font-size: 1em;
+        font-family: 'Pacifico', cursive;
+    }
+    .nav-links a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Main Content Styling */
+    .main-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        margin-top: 100px;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        position: relative;
+        left: -150px;
+    }
+    h2{
+        color: rgb(34, 129, 34);
+    }
+    
+    
+    /* Form Styling */
+    form {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        background-color: #ececec; /* Changed login box color to light gray */
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+     label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #666;
+        border-radius: 4px;
+    }
+    /*input#username {
+        background-color: #8ce867; /* Light green background for username */
+    /* }
+    input#password {
+        background-color: #83e170; /* Light red background for password }*/
+        label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #20407a; /* Updated label color */
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #666;
+    border-radius: 4px;
+    color: #20407a; /* Updated text color for input fields */
+    background-color: transparent; /* Transparent background for input fields */
+}
+ 
+    button {
+        background-color: #20407a;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+    button:hover {
+        background-color: #1a325d;
+    }
+    
+    /* Footer Styling */
+    footer {
+        width: 100%;
+        background-color: rgba(32, 61, 111, 0.9);
+        color: white;
+        text-align: center;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+    </style>
+    
+</head>
+<body>
+ 
+
+    <header>
+        <h1>Iris Tumor Detector</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'upload_image' %}">Upload Image</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="messages">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}
+        <h2>Instructions for Using the Iris Tumor Eye Detector</h2>
+        <br>
+        <ol>
+            <li><strong>Create an Account:</strong> New users should register to create an account. Existing users can log in directly.</li>
+            <li><strong>Regitration Credintails:</strong>By viewing the registration page knowing the basic way to register like giving a strong password with atleast of 8 characters.</li>
+            <li><strong>Upload an Eye Image:</strong> After logging in, click on the "Upload Image" link to submit an eye scan image for analysis.</li>
+            <li><strong>Verification:</strong>After Uploading Image,it will be scanned and analysed and give output that image has a tumor or no tumor.</li>
+          
+        </ol>
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; 2024 Iris Tumor Detection Project. All rights reserved.
+    </footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    h2{
+        color: rgb(28, 140, 28);
+    }
+</style>
+<h2>About Our Project</h2><br>
+<div class="about">
+    <p>Iris tumors are rare but can significantly affect vision and eye health.
+        Early detection is crucial for effective treatment and better patient outcomes.
+        Convolutional Neural Networks (CNN) provide advanced techniques for image analysis in medical diagnostics.
+        <br><br>The iris is a key feature in ocular diagnostics, providing vital information about various conditions . High-resolution imaging techniques can capture detailed features of the iris, aiding in tumor detection.
+Accurate imaging is essential for effective CNN training and subsequent tumor identification.
+<br><br>Image preprocessing involves enhancing the quality of images for better analysis by CNNS.
+
+        
+        </p>
+    <a href="{% url 'about' %}"></a>
+    <a href="https://en.wikipedia.org/wiki/Eye_neoplasm">overview</a>
+</div>
+{% endblock %}
